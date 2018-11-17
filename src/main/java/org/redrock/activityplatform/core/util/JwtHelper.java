@@ -19,8 +19,9 @@ public class JwtHelper {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     /**
      * 签名秘钥
+     * 每次迭代需要更改
      */
-    private static final String SECRET = "RedRock/Hongyan-Staff";
+    private static final String SECRET = "*";
 
     /**
      * 生成token

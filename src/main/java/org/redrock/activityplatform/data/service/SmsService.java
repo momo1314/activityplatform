@@ -56,7 +56,7 @@ public class SmsService {
             SmsSingleSender ssender = new SmsSingleSender(appid, appkey);
             SmsSingleSenderResult result = ssender.sendWithParam("86", phoneNumbers[0],
                     templateId, params.toArray(new String[params.size()]), (oname.equals("红岩网校工作站"))?"红岩网校工作站":smsSign, "", "");  // 签名参数未提供或者为空时，会使用默认签名发送短信
-            logger.info("短信返回:"+result);
+            logger.info("SMS Return:"+result);
             if(result.errMsg.equals("OK")) {
                 infoService.add(inf);
                 msgService.updateSee(cid,0);
@@ -68,21 +68,21 @@ public class SmsService {
                 return true;
             }else{
                 infoService.updateCStatusf(cid);
-                logger.info("返回信息非ok,推送失败"+result.toString());
+                logger.info("errMsg not OK , Sent not success"+result.toString());
                 return false;
             }
         } catch (HTTPException e) {
             infoService.updateCStatusf(cid);
-            logger.info("HTTP响应码错误:"+e);
+            logger.info("HTTP  code error:"+e);
             return false;
          } catch (JSONException e) {
             infoService.updateCStatusf(cid);
-            logger.info("json解析错误:"+e);
+            logger.info("Parsing JSON error:"+e);
             return false;
             //e.printStackTrace();
         } catch (IOException e) {
             infoService.updateCStatusf(cid);
-            logger.info("网络IO错误:"+e);
+            logger.info("IO error:"+e);
             return false;
             //e.printStackTrace();
         }

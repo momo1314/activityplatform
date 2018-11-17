@@ -23,7 +23,7 @@ public class GlobalExceptionHandler {
         logger.error(ExceptionUtils.getFullStackTrace(e));  // 记录错误信息
         String msg = e.getMessage();
         if (msg == null || msg.equals("")) {
-            msg = "服务器出错";
+            msg = "server error!";
         }
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("error", msg);

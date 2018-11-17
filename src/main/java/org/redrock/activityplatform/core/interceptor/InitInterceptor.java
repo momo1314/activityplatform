@@ -61,24 +61,24 @@ public class InitInterceptor implements HandlerInterceptor {
             // 判断是否存在令牌信息，如果存在，则验证jwt
             String accessToken = request.getHeader(ACCESS_TOKEN);
             if (null == accessToken) {
-                throw new RuntimeException("无jwt，请重新进入");
+                throw new RuntimeException("No JWT!");
             }
             Claims claims = JwtHelper.parseJWT(accessToken);
             String openid = claims.getId();
             //String openid = request.getParameter("openid");
             User user = userService.findByOpenid(openid);
             if (user == null) {
-                throw new RuntimeException("jwt校验错误，请重新登录");
+                throw new RuntimeException("Wrong JWT!");
             }
             if(!openid.equals(user.getOpenid())){
-                throw new RuntimeException("jwt校验错误，请重新登录");
+                throw new RuntimeException("Wrong JWT!");
             }
             //验证通过
             return true;
         }else if(back != null){
             String accessToken = request.getHeader(ACCESS_TOKEN);
             if (null == accessToken) {
-                throw new RuntimeException("无jwt，请重新进入");
+                throw new RuntimeException("No JWT!");
             }
             Claims claims = JwtHelper.parseJWT(accessToken);
             String check = claims.getId();

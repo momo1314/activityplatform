@@ -34,11 +34,11 @@ public class WeChatUtil {
             user.setOpenid(json.getString("openid").split("\\W")[0]);//获取接口的openid
             String result = CurlUtil.postData(url, jsonObject.toJSONString(jsonObject, SerializerFeature.DisableCircularReferenceDetect));
             JSONObject resultJson = JSONObject.parseObject(result);
-            logger.info("学号" + user.getStuid() + ",微信返回结果:" + resultJson.toJSONString());
+            logger.info("StuNum" + user.getStuid() + ",Wechat Result:" + resultJson.toJSONString());
             String errmsg = (String) resultJson.get("errmsg");
             return errmsg;
         }catch (Exception e) {
-            logger.error("返回结果解析失败或对方未绑定,请后端检查参数:"+e);
+            logger.error("Return result resolution failed or unbound.:"+e);
             return "-1";
         }
     }

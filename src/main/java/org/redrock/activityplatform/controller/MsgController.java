@@ -66,7 +66,7 @@ public class MsgController {
             msgService.sendMsg("choose.queue", openid + "/" + oname + "/" + dname);
             return new ResponseEntity<>(200, HttpStatus.OK);
         }catch (Exception e){
-            throw  new RuntimeException("消息队列发生错误");
+            throw  new RuntimeException("There have been some errors in the queue.");
         }
     }
 
@@ -86,7 +86,7 @@ public class MsgController {
             msgService.sendMsg("rechoose.queue", openid + "/" + oldoname + "/" + olddname + "/" + newoname+ "/" + newdname);
             return new ResponseEntity<>(200, HttpStatus.OK);
         }catch (Exception e){
-            throw  new RuntimeException("消息队列发生错误");
+            throw  new RuntimeException("There have been some errors in the queue.");
         }
     }
 
@@ -104,7 +104,7 @@ public class MsgController {
             msgService.sendMsg("dechoose.queue", openid + "/" + oname + "/" + dname );
             return new ResponseEntity<>(200, HttpStatus.OK);
         }catch (Exception e){
-            throw  new RuntimeException("消息队列发生错误");
+            throw  new RuntimeException("There have been some errors in the queue.");
         }
     }
 }

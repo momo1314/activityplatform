@@ -86,7 +86,7 @@ public class BackController {
             return new ResponseEntity<>(manage, HttpStatus.OK);
         }
         manage = new Manage();
-        manage.setName("登录失败");
+        manage.setName("login fail!");
         return new ResponseEntity<>(manage, HttpStatus.valueOf(500));
     }
 //
@@ -170,7 +170,7 @@ public class BackController {
                         }
                     }catch (Exception e){
                         //重试获取token -接口偶尔出现获取失败的情况
-                        logger.error("微信推送获取token报错:"+e);
+                        logger.error("Get token report error:"+e);
                         JSONObject json = JSONObject.parseObject(CurlUtil.getContent("https://wx.idsbllp.cn/game/api/accesstoken.php", map, "GET"));
                         String token = json.getString("data");
                         infoService.updateC0(cid);
@@ -474,7 +474,7 @@ public class BackController {
                     "时间为：10月15日～16日 8:00-21:00 。\n" +
                     "地点：太极西三门右转走至尽头后上楼 红岩网校b区会议室。期待与大家见面~";
         } else {
-            throw  new RuntimeException("模板消息格式错误");
+            throw  new RuntimeException("Template message format error!");
         }
         return str;
     }
@@ -524,7 +524,7 @@ public class BackController {
             info.add(user.getStuname());
             info.add("参加面试");
         } else {
-            throw  new RuntimeException("模板消息格式错误");
+            throw  new RuntimeException("Template message format error!");
         }
         return info;
     }

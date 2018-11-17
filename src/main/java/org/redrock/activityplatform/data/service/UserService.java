@@ -88,11 +88,11 @@ public class UserService {
 	    JSONObject jsonObject = JSON.parseObject(res);
 	    try{
             if(jsonObject.getString("openid").equals(null)){
-                return "获取openid失败";
+                return "Getting openid failed!";
             }
             return jsonObject.getString("openid");
         }catch (Exception e){
-	        throw new RuntimeException("获取信息失败,详细信息为:"+jsonObject.toJSONString());
+	        throw new RuntimeException("Got Error form getOpenid :"+jsonObject.toJSONString());
         }
 
 

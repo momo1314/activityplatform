@@ -47,9 +47,9 @@ public class WeChatService {
                 infoService.updateCStatusf(cid);
             }
             if(errmsg.equals("-1")){
-                logger.error("消息处理错误");
+                logger.error("Message processing error!");
             }else{
-                logger.error("模板消息推送失败");
+                logger.error("Template message post failed!");
             }
             return false;
         }
