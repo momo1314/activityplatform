@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.redrock.activityplatform.data.dao.UserMapper">
+    <select id="findByOpenid" parameterType="java.lang.String" resultType="org.redrock.activityplatform.data.domain.User">
+        SELECT * FROM user WHERE openid = #{openid}
+    </select>
+
+    <select id="findBySid" parameterType="java.lang.String" resultType="org.redrock.activityplatform.data.domain.User">
+        SELECT * FROM user WHERE stuid = #{stuid}  group by stuname
+    </select>
+
+    <insert id="add" parameterType="org.redrock.activityplatform.data.domain.User">
+        INSERT INTO user
+        (stuname, stuid, openid, phonenum,college,gender)
+        VALUES
+        (#{stuname}, #{stuid}, #{openid}, #{phonenum},#{college},#{gender})
+    </insert>
+
+    <update id="update" parameterType="org.redrock.activityplatform.data.domain.User">
+        UPDATE user
+        <set>
+            <if test="stuname != null">stuname = #{stuname},</if>
+            <if test="stuid != null">stuid = #{stuid},</if>
+            <if test="phonenum != null">phonenum = #{phonenum},</if>
+            <if test="college != null">college = #{college},</if>
+            <if test="gender != null">gender = #{gender},</if>
+        </set>
+        <where>
+            openid = #{openid}
+        </where>
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        DELETE FROM user WHERE openid = #{openid}
+    </delete>
+
+    <select id="findBySidtoprize" parameterType="java.lang.String" resultType="org.redrock.activityplatform.data.domain.User">
+        SELECT * FROM prize WHERE stuid = #{stuid}
+    </select>
+</mapper>

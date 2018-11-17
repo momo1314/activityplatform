@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.redrock.activityplatform.data.dao.InfoMapper">
+    <!--增加用户消息-->
+    <insert id="add"  parameterType="org.redrock.activityplatform.data.domain.Information" useGeneratedKeys="true" keyProperty="id" >
+        INSERT INTO information
+        (cid, info , time ,status)
+        VALUES
+        (#{cid}, #{info} , utc_timestamp() , 0)
+    </insert>
+    <!--删除用户信息-->
+    <delete id="delete" parameterType="java.util.Map">
+        DELETE FROM information WHERE cid = #{cid} AND time = #{time}
+    </delete>
+
+    <!--删除information的信息-->
+    <delete id="deletebyid" parameterType="java.lang.Integer">
+        DELETE FROM information WHERE id = #{id}
+    </delete>
+
+    <!--更新推送消息状态-->
+    <update id="update" parameterType="org.redrock.activityplatform.data.domain.Information">
+        UPDATE information
+        <set>
+            status = 1
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+    <!--更新推送消息状态-->
+    <!--推送成功-->
+    <update id="updateCStatus" parameterType="org.redrock.activityplatform.data.domain.Information">
+        UPDATE choose
+        <set>
+            status = 1
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+<!--推送中-->
+    <update id="updateC0"  parameterType="org.redrock.activityplatform.data.domain.Information">
+        UPDATE choose
+        <set>
+            status = 0,
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+<!--推送失败-->
+    <update id="updateCStatusf" parameterType="org.redrock.activityplatform.data.domain.Information">
+        UPDATE choose
+        <set>
+            status = 2
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+
+    <!--查找个人的选择-->
+    <select id="findInfo" parameterType="java.lang.Integer" resultType="org.redrock.activityplatform.data.domain.Information">
+        SELECT * FROM information WHERE cid = #{cid} order by time DESC
+    </select>
+
+    <!--通过各种查找-->
+    <select id="findchoose" parameterType="org.redrock.activityplatform.data.domain.ManageMsg" resultType="org.redrock.activityplatform.data.domain.ManageMsg">
+    SELECT choose.id as cid , oname,dname,stuname,stuid,phonenum,info,result,status,college,gender FROM choose,user
+    <where>
+        choose.openid = user.openid
+        <if test="oname!=null and oname!=''">
+            and oname = #{oname}
+        </if>
+        <if test="dname!=null and dname!=''">
+            and dname = #{dname}
+        </if>
+        <if test="info!=null and info!=''">
+            and info = #{info}
+        </if>
+        <if test="result!=null and result!=''">
+            and result = #{result}
+        </if>
+        <if test="gender!=null and gender!=''">
+            and gender = #{gender}
+        </if>
+        <if test="stuname!=null and stuname!=''">
+            <bind name="likestuname" value="'%' + stuname + '%'" />
+            and stuname like #{likestuname}
+        </if>
+        <if test="stuid!=null and stuid!=''">
+            <bind name="likestuid" value="'%' + stuid + '%'" />
+            and stuid like #{likestuid}
+        </if>
+        <if test="college!=null and college!=''">
+            <bind name="likecollege" value="'%' + college + '%'" />
+            and college like #{likecollege}
+        </if>
+    </where>
+    ORDER BY `user`.id ASC limit #{currIndex}, #{size}
+    </select>
+
+    <!--获取分页页面大小-->
+    <select id="getsize" parameterType="org.redrock.activityplatform.data.domain.ManageMsg" resultType="java.lang.Integer">
+        SELECT count(*) FROM choose,user
+        <where>
+            choose.openid = user.openid
+            <if test="oname!=null and oname!=''">
+                and oname = #{oname}
+            </if>
+            <if test="dname!=null and dname!=''">
+                and dname = #{dname}
+            </if>
+            <if test="info!=null and info!=''">
+                and info = #{info}
+            </if>
+            <if test="result!=null and result!=''">
+                and result = #{result}
+            </if>
+            <if test="gender!=null and gender!=''">
+                and gender = #{gender}
+            </if>
+            <if test="stuname!=null and stuname!=''">
+                <bind name="likestuname" value="'%' + stuname + '%'" />
+                and stuname like #{likestuname}
+            </if>
+            <if test="stuid!=null and stuid!=''">
+                <bind name="likestuid" value="'%' + stuid + '%'" />
+                and stuid like #{likestuid}
+            </if>
+            <if test="college!=null and college!=''">
+                <bind name="likecollege" value="'%' + college + '%'" />
+                and college like #{likecollege}
+            </if>
+        </where>
+    </select>
+
+    <!--通过详细信息更新info和result(弃用-->
+    <update id="updateC" parameterType="org.redrock.activityplatform.data.domain.ManageMsg">
+        UPDATE choose
+        <set>
+            <if test="info!=null and info!=''">info = #{info},</if>
+            <if test="result!=null and result!='' ">result = #{result},</if>
+        </set>
+        <where>
+            oname = #{oname} AND dname = #{dname} AND openid = (
+              SELECT openid FROM user WHERE stuname = #{stuname} AND  stuid = #{stuid}
+            )
+        </where>
+    </update>
+
+    <!--通过id更新info和result-->
+    <update id="updateCbyid"  parameterType="java.util.Map">
+        UPDATE choose
+        <set>
+            <if test="info!=null and info!=''">info = #{info},</if>
+            <if test="result!=null and result!='' ">result = #{result},</if>
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+
+
+    <!--查找总报名人数-->
+    <select id="allcount" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT count(*) as conut FROM choose WHERE oname = #{oname}
+    </select>
+    <!--查找报名id总人数-->
+    <select id="usercount"  parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT count(*) FROM (SELECT openid FROM choose Where oname = #{oname} GROUP BY openid) a
+    </select>
+
+    <!--查找选择该组织总人数-->
+    <select id="ocount" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT count(*) as conut FROM choose
+        <where>
+            oname = #{oname}
+            <if test="dname!=null and dname!=''">
+                and dname = #{dname}
+            </if>
+            <if test="info!=null and info!=''">
+                and info = #{info}
+            </if>
+            <if test="result!=null and result!=''">
+                and result = #{result}
+            </if>
+        </where>
+    </select>
+
+
+    <!--查找管理员信息-->
+    <select id="finduser" parameterType="java.lang.String" resultType="org.redrock.activityplatform.data.domain.Manage">
+        SELECT * FROM manage where name = #{username}
+    </select>
+
+    <!--更新短信发送条数-->
+    <update id="updatefee"  parameterType="java.util.Map">
+        UPDATE manage
+        <set>
+            <if test="fee!=null and fee!=''">fee = fee + #{fee},</if>
+        </set>
+        <where>
+            name = #{oname}
+        </where>
+    </update>
+
+
+    <!--通过cid查询用户信息-->
+    <select id="finduserinfobycid" parameterType="java.lang.Integer" resultType="org.redrock.activityplatform.data.domain.UserMessage">
+        SELECT stuname,stuid,phonenum,oname,dname,choose.openid as openid , result FROM user,choose where user.openid = choose.openid AND choose.id = #{cid}
+    </select>
+
+    <!--获得总体info列表-->
+    <select id="getcinfolist" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT info FROM choose
+        <where>
+            <if test="oname!=null and oname!=''">
+                AND oname = #{oname}
+            </if>
+            <if test="dname!=null and dname!=''">
+                AND dname = #{dname}
+            </if>
+        </where>
+        GROUP BY info
+    </select>
+
+    <!--获得总体result列表-->
+    <select id="getcreslist" resultType="java.lang.String">
+        SELECT result FROM choose GROUP BY result
+    </select>
+
+    <!--获得组织fee数量-->
+    <select id="getfee" resultType="java.util.Map">
+        SELECT fee FROM manage WHERE name = #{oname}
+    </select>
+</mapper>

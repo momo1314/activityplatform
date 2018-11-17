@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.redrock.activityplatform.data.dao.MsgMapper">
+    <select id="findByOpenid" parameterType="java.lang.String" resultType="org.redrock.activityplatform.data.domain.Message">
+        SELECT * FROM choose WHERE openid = #{openid}
+    </select>
+
+    <select id="findOne" parameterType="java.lang.String" resultType="org.redrock.activityplatform.data.domain.Message">
+        SELECT * FROM choose WHERE openid = #{openid} AND  oname = #{oname} AND dname = #{dname}
+    </select>
+
+    <insert id="addC"  parameterType="org.redrock.activityplatform.data.domain.Message" useGeneratedKeys="true" keyProperty="id" >
+        INSERT INTO choose
+        (openid, oname , dname ,see , info , result)
+        VALUES
+        (#{openid}, #{oname} , #{dname} , 1 , "无" , "无")
+    </insert>
+
+    <update id="updateC" parameterType="org.redrock.activityplatform.data.domain.Message">
+        UPDATE choose
+        <set>
+            <if test="newoname != null">oname = #{newoname},</if>
+            <if test="newdname != null">dname = #{newdname},</if>
+        </set>
+        <where>
+            openid = #{openid} AND oname = #{oldoname} AND dname = #{olddname}
+        </where>
+    </update>
+
+    <update id="updateSee" parameterType="org.redrock.activityplatform.data.domain.Message">
+        UPDATE choose
+        <set>
+            see = #{see}
+        </set>
+        <where>
+            id = #{cid}
+        </where>
+    </update>
+
+    <delete id="deleteC" parameterType="java.lang.String">
+        DELETE FROM choose WHERE openid = #{openid} AND oname = #{oname} AND dname = #{dname}
+    </delete>
+
+    <delete id="deletebyid" parameterType="java.lang.Integer">
+        DELETE FROM choose WHERE id = #{id}
+    </delete>
+
+    <select id="findinfo" parameterType="java.lang.Integer" resultType="org.redrock.activityplatform.data.domain.Information">
+        SELECT * FROM information WHERE cid = #{cid} order by time DESC
+    </select>
+
+    <delete id="deleteinfo" parameterType="java.lang.Integer">
+        DELETE FROM information WHERE cid = #{cid}
+    </delete>
+
+</mapper>
