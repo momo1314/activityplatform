@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.redrock.activityplatform.core.annotation.BackJwt;
 import org.redrock.activityplatform.core.annotation.NeedJwt;
+import org.redrock.activityplatform.core.util.Const;
 import org.redrock.activityplatform.core.util.JwtHelper;
 import org.redrock.activityplatform.data.domain.User;
 import org.redrock.activityplatform.data.service.UserService;
@@ -22,15 +23,15 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.redrock.activityplatform.core.util.Const.ACCESS_TOKEN;
+
 /**
  * Created by momo on 2018/5/2
  */
 
 public class InitInterceptor implements HandlerInterceptor {
-    public final static String ACCESS_TOKEN = "authorization";
     //固化用户(可以写到库里然后改库就不用经常重新编译，这里需求是这些就直接写死了)
     //public final static String[] ACCESS_USER = {"Redrock","dayishutuan","kelian","xueshenghui","shelian","bangongshi", "xuanchuanbu", "zuzhibu","qingxie"};
-    public final static String[] ACCESS_USER = {"红岩网校工作站","大学生艺术团","学生科技联合会","校学生会","学生社团联合会","校团委办公室", "校团委宣传部", "校团委组织部","青年志愿者协会","勤工助学中心","重邮就业中心","重邮e站微+平台"};
 
     private UserService userService;
 
@@ -59,7 +60,7 @@ public class InitInterceptor implements HandlerInterceptor {
         BackJwt back = method.getAnnotation(BackJwt.class);
         if (methodAnnotation != null) {
             // 判断是否存在令牌信息，如果存在，则验证jwt
-            String accessToken = request.getHeader(ACCESS_TOKEN);
+            String accessToken = request.getHeader(Const.ACCESS_TOKEN);
             if (null == accessToken) {
                 throw new RuntimeException("No JWT!");
             }
@@ -76,13 +77,13 @@ public class InitInterceptor implements HandlerInterceptor {
             //验证通过
             return true;
         }else if(back != null){
-            String accessToken = request.getHeader(ACCESS_TOKEN);
+            String accessToken = request.getHeader(Const.ACCESS_TOKEN);
             if (null == accessToken) {
                 throw new RuntimeException("No JWT!");
             }
             Claims claims = JwtHelper.parseJWT(accessToken);
             String check = claims.getId();
-            List<String> list= Arrays.asList(ACCESS_USER);
+            List<String> list= Arrays.asList(Const.ACCESS_USER);
             if(list.indexOf(check) == -1){
                 return false;
             }else{

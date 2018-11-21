@@ -37,4 +37,8 @@ public class Const {
     public static  final  String APPID = "wx51c8e3c6a32c81f1";
 
     public  static  final  String SECRET = "77ee7cfd3cabe92e425a78e9cb52f3e1";
+
+    public final static String[] ACCESS_USER = {"红岩网校工作站","大学生艺术团","学生科技联合会","校学生会","学生社团联合会","校团委办公室", "校团委宣传部", "校团委组织部","青年志愿者协会","勤工助学中心","重邮就业中心","重邮e站微+平台"};
+
+    public final static String ACCESS_TOKEN = "authorization";
 }

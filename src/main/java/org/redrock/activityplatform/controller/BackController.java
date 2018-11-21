@@ -80,7 +80,7 @@ public class BackController {
         manage.setPassword(passwd);
         manage = infoService.login(manage);
         if (manage != null) {
-            String jwt = JwtHelper.createJwtToken(username);
+            String jwt = JwtHelper.createJwtTokenForBak(username);
             rsp.setHeader("Authorization", jwt);
             manage.setPassword(null);
             return new ResponseEntity<>(manage, HttpStatus.OK);

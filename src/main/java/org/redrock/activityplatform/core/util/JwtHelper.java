@@ -36,6 +36,14 @@ public class JwtHelper {
         return createJwtToken(id, issuer, subject, ttlMillis);
     }
 
+    public static String createJwtTokenForBak(String id){
+        String issuer = "redrock";
+        String subject = "bak_access";
+//        long ttlMillis = System.currentTimeMillis();
+        long ttlMillis = 120 * 60 * 1000;
+        return createJwtToken(id, issuer, subject, ttlMillis);
+    }
+
     /**
      * 生成Token
      * @param id  openid/name

@@ -114,7 +114,7 @@ public class InfoService {
     };
 
     /**
-     * 获取不同组织和状态下的总 人 数
+     * 获取不同组织和状态下的总 人数
      * @param oname
      * @param dname
      * @param info
