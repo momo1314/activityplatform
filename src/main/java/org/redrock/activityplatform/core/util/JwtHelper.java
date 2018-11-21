@@ -30,6 +30,7 @@ public class JwtHelper {
      */
     public static String createJwtToken(String id){
         String issuer = "redrock";
+        //TODO：下版本记得更新
         String subject = "cquptstu";
 //        long ttlMillis = System.currentTimeMillis();
         long ttlMillis = 120 * 60 * 1000;
@@ -38,6 +39,7 @@ public class JwtHelper {
 
     public static String createJwtTokenForBak(String id){
         String issuer = "redrock";
+        //TODO：下版本记得更新
         String subject = "bak_access";
 //        long ttlMillis = System.currentTimeMillis();
         long ttlMillis = 120 * 60 * 1000;
