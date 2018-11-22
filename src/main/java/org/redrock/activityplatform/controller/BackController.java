@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.redrock.activityplatform.core.interceptor.InitInterceptor.ACCESS_TOKEN;
+import static org.redrock.activityplatform.core.util.Const.ACCESS_TOKEN;
 
 /**
  * Created by momo on 2018/9/1
