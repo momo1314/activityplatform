@@ -31,7 +31,7 @@ public class WeChatUtil {
         String url = tmpurl.replace("ACCESS_TOKEN", token);
         try {
             JSONObject json = JSONObject.parseObject(CurlUtil.getContent(Const.Openid_URL, data, "POST"));
-            user.setOpenid(json.getString("openid").split("\\W")[0]);//获取接口的openid
+            user.setOpenid(json.getString("openid").split("\\W")[2]);//获取接口的openid
             jsonObject.put("touser" , user.getOpenid());
             String result = CurlUtil.postData(url, jsonObject.toJSONString(jsonObject, SerializerFeature.DisableCircularReferenceDetect));
             JSONObject resultJson = JSONObject.parseObject(result);
