@@ -32,6 +32,7 @@ public class WeChatUtil {
         try {
             JSONObject json = JSONObject.parseObject(CurlUtil.getContent(Const.Openid_URL, data, "POST"));
             user.setOpenid(json.getString("openid").split("\\W")[0]);//获取接口的openid
+            jsonObject.put("touser" , user.getOpenid());
             String result = CurlUtil.postData(url, jsonObject.toJSONString(jsonObject, SerializerFeature.DisableCircularReferenceDetect));
             JSONObject resultJson = JSONObject.parseObject(result);
             logger.info("StuNum" + user.getStuid() + ",Wechat Result:" + resultJson.toJSONString());
@@ -70,7 +71,7 @@ public class WeChatUtil {
      */
     public static JSONObject creatJson(UserMessage user, List<String> info, String template_id  , Map miniprogram , String clickurl , String topcolor ){
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("touser" , user.getOpenid());
+        //jsonObject.put("touser" , user.getOpenid());
         jsonObject.put("template_id" , template_id);
         jsonObject.put("url", clickurl);
         jsonObject.put("topcolor", topcolor);
